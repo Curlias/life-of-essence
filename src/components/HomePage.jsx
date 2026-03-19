@@ -4,11 +4,11 @@ import { fragrances } from '../data/fragrances';
 import { perfumers } from '../data/perfumers';
 
 const familyCards = [
-  { label: 'Cítricas', desc: 'Bergamota, limón, pomelo', Icon: Citrus, color: '#c4871a', bg: '#fef9ee', family: 'Cítrica', img: 'https://images.unsplash.com/photo-1616512992927-9e9b29fa6c35?w=500&q=80' },
-  { label: 'Florales', desc: 'Rosa, jazmín, iris', Icon: Flower2, color: '#9b4dab', bg: '#fdf5fe', family: 'Floral', img: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500&q=80' },
-  { label: 'Amaderadas', desc: 'Sándalo, cedro, vetiver', Icon: TreePine, color: '#5a3e0c', bg: '#f7f3ec', family: 'Amaderada', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80' },
-  { label: 'Orientales', desc: 'Oud, ámbar, vainilla', Icon: Sparkles, color: '#8b2020', bg: '#fdf2f2', family: 'Oriental', img: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=500&q=80' },
-  { label: 'Fougères', desc: 'Lavanda, musgo, heno', Icon: Leaf, color: '#2d6a4f', bg: '#eef6f2', family: 'Fougère', img: 'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=500&q=80' },
+  { label: 'Cítricas',   desc: 'Bergamota, limón, pomelo',  Icon: Citrus,   color: '#c4871a', bg: '#fef9ee', family: 'Cítrica',   img: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500&q=80' },
+  { label: 'Florales',   desc: 'Rosa, jazmín, iris',        Icon: Flower2,  color: '#9b4dab', bg: '#fdf5fe', family: 'Floral',    img: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500&q=80' },
+  { label: 'Amaderadas', desc: 'Sándalo, cedro, vetiver',   Icon: TreePine, color: '#5a3e0c', bg: '#f7f3ec', family: 'Amaderada', img: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&q=80' },
+  { label: 'Orientales', desc: 'Oud, ámbar, vainilla',      Icon: Sparkles, color: '#8b2020', bg: '#fdf2f2', family: 'Oriental',  img: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80' },
+  { label: 'Fougères',   desc: 'Lavanda, musgo, heno',      Icon: Leaf,     color: '#2d6a4f', bg: '#eef6f2', family: 'Fougère',  img: 'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=500&q=80' },
 ];
 
 const topFragrances = [...fragrances].sort((a, b) => b.rating - a.rating).slice(0, 4);
@@ -132,7 +132,7 @@ export default function HomePage({ onSearch, setCurrentPage, onNavigate }) {
               boxShadow: '0 16px 48px rgba(83,99,73,0.18)',
               border: '4px solid white',
             }}>
-              <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=500&q=80" alt="Fragancia"
+              <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=500&q=80" alt="Fragancia"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div style={{
@@ -141,7 +141,7 @@ export default function HomePage({ onSearch, setCurrentPage, onNavigate }) {
               boxShadow: '0 16px 48px rgba(83,99,73,0.16)',
               border: '4px solid white',
             }}>
-              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="Fragancia"
+              <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500&q=80" alt="Fragancia"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
