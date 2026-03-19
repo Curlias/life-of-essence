@@ -7,15 +7,17 @@ export const perfumers = [
     awards: ['FiFi Award 2019', 'Prix du Parfum 2021'],
     fragranceIds: [1],
     initial: 'C',
+    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
   },
   {
     id: 2,
     name: 'Francis Kurkdjian',
     specialty: 'Fragancias de Alta Costura',
-    bio: 'Considerado uno de los nariz más influyentes del siglo XXI. A los 25 años creó "Jean Paul Gaultier Le Mâle". Fundó su propia maison en 2009.',
+    bio: 'Considerado uno de los narices más influyentes del siglo XXI. A los 25 años creó "Jean Paul Gaultier Le Mâle". Fundó su propia maison en 2009.',
     awards: ['FiFi Award 2012', 'FiFi Award 2016', 'Chevalier des Arts et Lettres'],
     fragranceIds: [2],
     initial: 'F',
+    photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&q=80',
   },
   {
     id: 3,
@@ -25,15 +27,17 @@ export const perfumers = [
     awards: ['FiFi Award 2001', 'Prix du Parfum 2008', 'Prix du Parfum 2015'],
     fragranceIds: [3],
     initial: 'D',
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
   },
   {
     id: 4,
     name: 'Jean-Claude Ellena',
     specialty: 'Minimalismo Olfativo',
     bio: 'El poeta del perfume. Ex-perfumista en exclusiva de Hermès, Jean-Claude revolucionó la industria con su técnica de "acuarela olfativa": menos es más.',
-    awards: ['FiFi Award 2007', 'Officier de l\'Ordre National du Mérite'],
+    awards: ['FiFi Award 2007', "Officier de l'Ordre National du Mérite"],
     fragranceIds: [4],
     initial: 'J',
+    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
   },
   {
     id: 5,
@@ -43,6 +47,7 @@ export const perfumers = [
     awards: ['FiFi Award 2007'],
     fragranceIds: [5],
     initial: 'G',
+    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
   },
   {
     id: 6,
@@ -52,6 +57,7 @@ export const perfumers = [
     awards: ['FiFi Award 1994', 'FiFi Award 2001', 'Prix du Parfum 2016'],
     fragranceIds: [6],
     initial: 'A',
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
   },
   {
     id: 7,
@@ -61,6 +67,7 @@ export const perfumers = [
     awards: ['FiFi Award 2009', 'Prix du Parfum 2018'],
     fragranceIds: [7, 9],
     initial: 'T',
+    photo: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&q=80',
   },
   {
     id: 8,
@@ -70,6 +77,7 @@ export const perfumers = [
     awards: ['Prix du Parfum 2016', 'FiFi Award 2018'],
     fragranceIds: [8],
     initial: 'F',
+    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
   },
   {
     id: 9,
@@ -79,5 +87,6 @@ export const perfumers = [
     awards: ['FiFi Award 1995'],
     fragranceIds: [10],
     initial: 'A',
+    photo: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',
   },
 ];

@@ -1,13 +1,12 @@
 import { perfumers } from '../data/perfumers';
 import { fragrances } from '../data/fragrances';
-import { Award, ChevronRight } from 'lucide-react';
+import { Award, ChevronRight, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 
 export default function PerfumerList({ onSelectFragrance, setCurrentPage }) {
   const [selected, setSelected] = useState(null);
   const sorted = [...perfumers].sort((a, b) => a.name.localeCompare(b.name));
 
-  // Group alphabetically
   const grouped = sorted.reduce((acc, p) => {
     const letter = p.name[0].toUpperCase();
     if (!acc[letter]) acc[letter] = [];
@@ -16,67 +15,67 @@ export default function PerfumerList({ onSelectFragrance, setCurrentPage }) {
   }, {});
 
   return (
-    <div style={{ paddingTop: 64, minHeight: '100vh', backgroundColor: 'var(--crema)' }}>
+    <div style={{ paddingTop: 64, minHeight: '100vh', backgroundColor: '#fafaf7' }}>
       {/* Header */}
       <div style={{
         background: 'linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-bosque) 100%)',
-        padding: '48px 24px 40px',
+        padding: '52px 24px 44px',
         textAlign: 'center',
       }}>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: 'var(--dorado)', marginBottom: 8 }}>
+        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.4rem', color: 'var(--dorado)', marginBottom: 10 }}>
           Los Narices
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: '0.95rem', fontStyle: 'italic' }}>
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', fontStyle: 'italic' }}>
           Los artistas detrás de las fragancias que amamos
         </p>
       </div>
 
-      <div className="container" style={{ paddingTop: 36, paddingBottom: 64, display: 'grid', gridTemplateColumns: '1fr 340px', gap: 32, alignItems: 'start' }}>
-        {/* Left: alphabetical list + portrait gallery */}
-        <div>
-          {selected && (
-            <PerfumerDetail perfumer={selected} onSelectFragrance={onSelectFragrance} setCurrentPage={setCurrentPage} onClose={() => setSelected(null)} />
-          )}
+      <div className="container" style={{ paddingTop: 36, paddingBottom: 64, display: 'grid', gridTemplateColumns: '1fr 300px', gap: 32, alignItems: 'start' }}>
 
-          {!selected && (
+        {/* Left: gallery or detail */}
+        <div>
+          {selected ? (
+            <PerfumerDetail
+              perfumer={selected}
+              onSelectFragrance={onSelectFragrance}
+              setCurrentPage={setCurrentPage}
+              onClose={() => setSelected(null)}
+            />
+          ) : (
             <>
-              {/* Portrait gallery */}
-              <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', color: 'var(--verde-oscuro)', marginBottom: 18 }}>
+              <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: '#1a1a1a', marginBottom: 20 }}>
                 Galería de Perfumistas
               </h2>
               <div style={{
-                display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
-                gap: 16, marginBottom: 40,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                gap: 20,
               }}>
                 {sorted.map(p => (
-                  <button
-                    key={p.id}
-                    onClick={() => setSelected(p)}
-                    style={{
-                      backgroundColor: 'white', borderRadius: 12, padding: '16px 12px',
-                      boxShadow: '0 2px 10px var(--sombra)', cursor: 'pointer',
-                      border: '2px solid transparent', transition: 'all 0.2s',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
-                    }}
+                  <button key={p.id} onClick={() => setSelected(p)} style={{
+                    backgroundColor: 'white', borderRadius: 14, padding: '0 0 16px',
+                    boxShadow: '0 2px 12px rgba(83,99,73,0.09)',
+                    cursor: 'pointer', border: '2px solid transparent',
+                    transition: 'all 0.2s', overflow: 'hidden',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center',
+                  }}
                     onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--verde-bosque)'}
                     onMouseLeave={e => e.currentTarget.style.borderColor = 'transparent'}
                   >
-                    {/* B&W avatar */}
-                    <div style={{
-                      width: 70, height: 70, borderRadius: '50%',
-                      background: `linear-gradient(135deg, #666 0%, #333 100%)`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      filter: 'grayscale(1)',
-                      fontSize: '1.8rem', fontFamily: 'var(--font-serif)',
-                      color: 'white', fontWeight: 700,
-                    }}>
-                      {p.initial}
+                    {/* B&W portrait */}
+                    <div style={{ width: '100%', height: 140, overflow: 'hidden', marginBottom: 12 }}>
+                      <img
+                        src={p.photo}
+                        alt={p.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1)' }}
+                        loading="lazy"
+                      />
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: '0.82rem', color: 'var(--verde-oscuro)', lineHeight: 1.25 }}>
+                    <div style={{ textAlign: 'center', padding: '0 10px' }}>
+                      <div style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: '0.85rem', color: '#1a1a1a', lineHeight: 1.3 }}>
                         {p.name}
                       </div>
-                      <div style={{ fontSize: '0.68rem', color: 'var(--gris-claro)', marginTop: 3 }}>
+                      <div style={{ fontSize: '0.68rem', color: '#aaa', marginTop: 4 }}>
                         {p.specialty}
                       </div>
                     </div>
@@ -89,36 +88,37 @@ export default function PerfumerList({ onSelectFragrance, setCurrentPage }) {
 
         {/* Right: alphabetical index */}
         <aside style={{
-          backgroundColor: 'white', borderRadius: 12, padding: '20px',
-          boxShadow: '0 2px 12px var(--sombra)', position: 'sticky', top: 84,
+          backgroundColor: 'white', borderRadius: 14, padding: '22px',
+          boxShadow: '0 2px 12px rgba(83,99,73,0.09)', position: 'sticky', top: 84,
+          border: '1px solid #f0f0f0',
         }}>
-          <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: 'var(--verde-oscuro)', marginBottom: 16 }}>
+          <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: '#1a1a1a', marginBottom: 16 }}>
             Índice Alfabético
           </h3>
           {Object.entries(grouped).sort().map(([letter, list]) => (
-            <div key={letter} style={{ marginBottom: 16 }}>
+            <div key={letter} style={{ marginBottom: 14 }}>
               <div style={{
-                fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase',
+                fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase',
                 letterSpacing: '1px', color: 'var(--dorado)', marginBottom: 6,
-                borderBottom: '1px solid var(--crema-oscura)', paddingBottom: 4,
+                borderBottom: '1px solid #f0ece0', paddingBottom: 4,
               }}>
                 {letter}
               </div>
               {list.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => setSelected(p)}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    width: '100%', padding: '7px 6px',
-                    background: selected?.id === p.id ? '#53634912' : 'none',
-                    borderRadius: 6, textAlign: 'left',
-                    color: selected?.id === p.id ? 'var(--verde-oscuro)' : 'var(--gris-texto)',
-                    fontSize: '0.85rem', fontWeight: selected?.id === p.id ? 600 : 400,
-                  }}
-                >
-                  {p.name}
-                  <ChevronRight size={14} color="var(--gris-claro)" />
+                <button key={p.id} onClick={() => setSelected(p)} style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  width: '100%', padding: '7px 6px',
+                  backgroundColor: selected?.id === p.id ? '#53634912' : 'transparent',
+                  borderRadius: 6, textAlign: 'left',
+                  color: selected?.id === p.id ? 'var(--verde-oscuro)' : '#444',
+                  fontSize: '0.85rem', fontWeight: selected?.id === p.id ? 600 : 400,
+                }}>
+                  <img src={p.photo} alt={p.name} style={{
+                    width: 28, height: 28, borderRadius: '50%', objectFit: 'cover',
+                    filter: 'grayscale(1)', flexShrink: 0,
+                  }} />
+                  <span style={{ flex: 1 }}>{p.name}</span>
+                  <ChevronRight size={14} color="#ccc" />
                 </button>
               ))}
             </div>
@@ -135,101 +135,96 @@ function PerfumerDetail({ perfumer, onSelectFragrance, setCurrentPage, onClose }
   return (
     <div>
       <button onClick={onClose} style={{
-        display: 'flex', alignItems: 'center', gap: 6, marginBottom: 20,
+        display: 'flex', alignItems: 'center', gap: 6, marginBottom: 22,
         color: 'var(--verde-bosque)', background: 'none', fontSize: '0.85rem', fontWeight: 500,
       }}>
-        ← Todos los perfumistas
+        <ArrowLeft size={15} /> Todos los perfumistas
       </button>
 
       <div style={{
-        backgroundColor: 'white', borderRadius: 16, padding: '28px',
-        boxShadow: '0 4px 20px var(--sombra)', marginBottom: 24,
+        backgroundColor: 'white', borderRadius: 16, overflow: 'hidden',
+        boxShadow: '0 4px 20px rgba(83,99,73,0.12)', marginBottom: 24, border: '1px solid #f0f0f0',
       }}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', marginBottom: 20 }}>
-          {/* B&W portrait */}
-          <div style={{
-            width: 100, height: 100, borderRadius: '50%', flexShrink: 0,
-            background: 'linear-gradient(135deg, #777 0%, #333 100%)',
-            filter: 'grayscale(1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '2.4rem', fontFamily: 'var(--font-serif)', color: 'white', fontWeight: 700,
-          }}>
-            {perfumer.initial}
-          </div>
-          <div>
-            <p style={{ fontSize: '0.75rem', color: 'var(--gris-claro)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 4 }}>
-              Perfumista
-            </p>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.8rem', color: 'var(--verde-oscuro)', lineHeight: 1.15, marginBottom: 6 }}>
-              {perfumer.name}
-            </h2>
+        {/* Cover photo */}
+        <div style={{ height: 220, overflow: 'hidden', position: 'relative' }}>
+          <img src={perfumer.photo} alt={perfumer.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)' }} />
+          <div style={{ position: 'absolute', bottom: 20, left: 24 }}>
             <span style={{
-              fontSize: '0.75rem', fontWeight: 600, padding: '3px 10px', borderRadius: 12,
-              backgroundColor: 'var(--verde-bosque)20', color: 'var(--verde-bosque)',
-              border: '1px solid var(--verde-bosque)40',
+              fontSize: '0.72rem', fontWeight: 600, padding: '3px 10px', borderRadius: 10,
+              backgroundColor: 'var(--dorado)', color: 'var(--verde-oscuro)',
             }}>
               {perfumer.specialty}
             </span>
           </div>
         </div>
 
-        <p style={{ fontSize: '0.9rem', color: 'var(--gris-texto)', lineHeight: 1.7, marginBottom: 20 }}>
-          {perfumer.bio}
-        </p>
+        <div style={{ padding: '24px 28px' }}>
+          <p style={{ fontSize: '0.75rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.9px', marginBottom: 4 }}>
+            Perfumista
+          </p>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.9rem', color: '#1a1a1a', lineHeight: 1.15, marginBottom: 16 }}>
+            {perfumer.name}
+          </h2>
 
-        {/* Awards */}
-        {perfumer.awards?.length > 0 && (
-          <div>
-            <h4 style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--gris-claro)', marginBottom: 10 }}>
-              Reconocimientos
-            </h4>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {perfumer.awards.map(award => (
-                <span key={award} style={{
-                  display: 'flex', alignItems: 'center', gap: 5,
-                  fontSize: '0.75rem', padding: '4px 12px', borderRadius: 12,
-                  backgroundColor: 'var(--dorado)18', color: 'var(--cuero)',
-                  border: '1px solid var(--dorado)50',
-                }}>
-                  <Award size={12} /> {award}
-                </span>
-              ))}
+          <p style={{ fontSize: '0.92rem', color: '#555', lineHeight: 1.75, marginBottom: 22 }}>
+            {perfumer.bio}
+          </p>
+
+          {perfumer.awards?.length > 0 && (
+            <div>
+              <h4 style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', color: '#aaa', marginBottom: 10 }}>
+                Reconocimientos
+              </h4>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {perfumer.awards.map(award => (
+                  <span key={award} style={{
+                    display: 'flex', alignItems: 'center', gap: 5,
+                    fontSize: '0.75rem', padding: '4px 12px', borderRadius: 12,
+                    backgroundColor: '#fdf8e8', color: '#8a6c00',
+                    border: '1px solid #e8d97050',
+                  }}>
+                    <Award size={12} /> {award}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Fragrances */}
       {perfumerFragrances.length > 0 && (
-        <div style={{ backgroundColor: 'white', borderRadius: 12, padding: '20px', boxShadow: '0 2px 10px var(--sombra)' }}>
-          <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: 'var(--verde-oscuro)', marginBottom: 14 }}>
-            Creaciones Icónicas
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {perfumerFragrances.map(f => (
-              <button
-                key={f.id}
-                onClick={() => { onSelectFragrance(f); setCurrentPage('detail'); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 14,
-                  padding: '12px 14px', borderRadius: 8,
-                  border: '1px solid #eee', background: 'none', textAlign: 'left',
-                  cursor: 'pointer', transition: 'background 0.15s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--crema)'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-              >
-                <span style={{ fontSize: '1.8rem' }}>
-                  {f.family === 'Floral' ? '🌹' : f.family === 'Oriental' ? '🕌' : f.family === 'Cítrica' ? '🍋' : '🪵'}
-                </span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: '0.95rem', color: 'var(--verde-oscuro)' }}>{f.name}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--gris-claro)' }}>{f.brand} · {f.year}</div>
-                </div>
-                <ChevronRight size={16} color="var(--gris-claro)" />
-              </button>
-            ))}
+        <div style={{ backgroundColor: 'white', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 12px rgba(83,99,73,0.09)', border: '1px solid #f0f0f0' }}>
+          <div style={{ padding: '18px 22px', borderBottom: '1px solid #f5f5f5' }}>
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: '#1a1a1a' }}>
+              Creaciones Icónicas
+            </h3>
           </div>
+          {perfumerFragrances.map(f => (
+            <button key={f.id} onClick={() => { onSelectFragrance(f); setCurrentPage('detail'); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 0,
+                width: '100%', background: 'none', cursor: 'pointer',
+                borderBottom: '1px solid #f8f8f8', textAlign: 'left',
+                transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#fafaf7'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              <div style={{ width: 72, height: 72, flexShrink: 0, overflow: 'hidden' }}>
+                {f.image
+                  ? <img src={f.image} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <div style={{ width: '100%', height: '100%', backgroundColor: '#f0ede6' }} />
+                }
+              </div>
+              <div style={{ flex: 1, padding: '14px 16px' }}>
+                <div style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: '0.95rem', color: '#1a1a1a' }}>{f.name}</div>
+                <div style={{ fontSize: '0.75rem', color: '#aaa' }}>{f.brand} · {f.year}</div>
+              </div>
+              <ChevronRight size={15} color="#ccc" style={{ marginRight: 16 }} />
+            </button>
+          ))}
         </div>
       )}
     </div>

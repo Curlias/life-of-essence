@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
+import HomePage from './components/HomePage';
 import FragranceCatalog from './components/FragranceCatalog';
 import FragranceDetail from './components/FragranceDetail';
 import PerfumerList from './components/PerfumerList';
@@ -8,48 +8,61 @@ import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // home | catalog | perfumers | detail
+  const [currentPage, setCurrentPage] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
+  const [catalogOptions, setCatalogOptions] = useState({});
   const [selectedFragrance, setSelectedFragrance] = useState(null);
-  const [authModal, setAuthModal] = useState(null); // null | 'login' | 'register'
+  const [authModal, setAuthModal] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Central navigation function used by footer and other components
+  const navigate = (target, options = {}) => {
+    if (target === 'home') {
+      setCurrentPage('home');
+      setSelectedFragrance(null);
+    } else if (target === 'catalog') {
+      setCatalogOptions(options);
+      setCurrentPage('catalog');
+      setSelectedFragrance(null);
+    } else if (target === 'perfumers') {
+      setCurrentPage('perfumers');
+    } else if (target === 'detail') {
+      if (options.fragrance) setSelectedFragrance(options.fragrance);
+      setCurrentPage('detail');
+    } else if (target === 'login' || target === 'register') {
+      setAuthModal(target);
+    }
+  };
+
+  const handleSearch = (q) => {
+    setSearchQuery(q);
+    setCatalogOptions({});
+    setCurrentPage('catalog');
+  };
 
   const handleSelectFragrance = (fragrance) => {
     setSelectedFragrance(fragrance);
     setCurrentPage('detail');
   };
 
-  const handleSearch = (q) => {
-    setSearchQuery(q);
-    setCurrentPage('catalog');
-  };
-
-  const handleOpenAuth = (mode) => setAuthModal(mode);
-  const handleCloseAuth = () => setAuthModal(null);
-  const handleAuthSuccess = (email) => {
-    setIsLoggedIn(true);
-    setAuthModal(null);
-  };
-
-  const navigatePage = (page) => {
-    setCurrentPage(page);
-    if (page !== 'detail') setSelectedFragrance(null);
-  };
-
   return (
     <div>
       <Navbar
         onSearch={handleSearch}
-        onOpenAuth={handleOpenAuth}
+        onOpenAuth={setAuthModal}
         isLoggedIn={isLoggedIn}
         currentPage={currentPage}
-        setCurrentPage={navigatePage}
+        setCurrentPage={(page) => navigate(page)}
       />
 
       {currentPage === 'home' && (
         <>
-          <Hero onSearch={handleSearch} setCurrentPage={navigatePage} />
-          <Footer />
+          <HomePage
+            onSearch={handleSearch}
+            setCurrentPage={setCurrentPage}
+            onNavigate={navigate}
+          />
+          <Footer onNavigate={navigate} onOpenAuth={setAuthModal} isLoggedIn={isLoggedIn} />
         </>
       )}
 
@@ -57,9 +70,10 @@ export default function App() {
         <>
           <FragranceCatalog
             searchQuery={searchQuery}
+            initialOptions={catalogOptions}
             onSelectFragrance={handleSelectFragrance}
           />
-          <Footer />
+          <Footer onNavigate={navigate} onOpenAuth={setAuthModal} isLoggedIn={isLoggedIn} />
         </>
       )}
 
@@ -67,9 +81,9 @@ export default function App() {
         <>
           <PerfumerList
             onSelectFragrance={handleSelectFragrance}
-            setCurrentPage={navigatePage}
+            setCurrentPage={setCurrentPage}
           />
-          <Footer />
+          <Footer onNavigate={navigate} onOpenAuth={setAuthModal} isLoggedIn={isLoggedIn} />
         </>
       )}
 
@@ -77,21 +91,21 @@ export default function App() {
         <>
           <FragranceDetail
             fragrance={selectedFragrance}
-            onBack={() => navigatePage('catalog')}
-            onOpenAuth={handleOpenAuth}
+            onBack={() => navigate('catalog')}
+            onOpenAuth={setAuthModal}
             isLoggedIn={isLoggedIn}
-            setCurrentPage={navigatePage}
+            setCurrentPage={setCurrentPage}
             onSelectFragrance={handleSelectFragrance}
           />
-          <Footer />
+          <Footer onNavigate={navigate} onOpenAuth={setAuthModal} isLoggedIn={isLoggedIn} />
         </>
       )}
 
       {authModal && (
         <AuthModal
           mode={authModal}
-          onClose={handleCloseAuth}
-          onSuccess={handleAuthSuccess}
+          onClose={() => setAuthModal(null)}
+          onSuccess={() => { setIsLoggedIn(true); setAuthModal(null); }}
         />
       )}
     </div>
